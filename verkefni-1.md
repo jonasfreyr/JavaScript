@@ -22,5 +22,6 @@
   ```
 5. <b>Útskýrðu hvað eftirfarandi kóði gerir, hvað gera svigarnir?</b>
  ```javascript
- (function() { alert('Hello World'); })(); 
+ (function() { alert('Hello World'); })();
  ```
+ * fyrstu svigarnir halda utan um allt fallið og svigarnir til hægti kalla á það.
