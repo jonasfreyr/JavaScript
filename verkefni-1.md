@@ -6,14 +6,16 @@
   * let fer inn í þrengra scope en var.
 
 -<b>Skilgreindu fall á þrjá mismunandi vegu með kóðasýnidæmi.</b>
- * ```javascript
+ ```javascript
   function fall(){
   }
   ```
+  
  ```javascript
   let fall = function(){
   }
   ```
+  
  ```javascript
   let fall = function fall(){
   }
