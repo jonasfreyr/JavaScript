@@ -10,12 +10,12 @@
   function fall(){
   }
   ```
- *  ```javascript
-  * let fall = function(){
+ ```javascript
+  let fall = function(){
   }
   ```
- *  ```javascript
-  * let fall = function fall(){
+ ```javascript
+  let fall = function fall(){
   }
   ```
 -<b>Útskýrðu hvað eftirfarandi kóði gerir, hvað gera svigarnir?
