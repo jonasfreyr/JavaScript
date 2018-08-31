@@ -24,7 +24,7 @@
  ```javascript
  (function() { alert('Hello World'); })();
  ```
- * fyrstu svigarnir halda utan um allt fallið og svigarnir til hægti kalla á það.
+ * fyrstu svigarnir halda utan um allt fallið og svigarnir til hægri kalla á það.
 
 6.<b> Í hvaða röð er kóðinn keyrður í raun eftir að JS þýðandinn (e. interpreter) er búinn að fá
 hann til sín? Raðaðu kóðanum rétt fyrir JS þýðandanum. Afhverju er útkoman 8? Útskýrðu.</b>
