@@ -4,16 +4,17 @@
   * Lætur þýðandann breyta sem minnst.
 -<b>Hver er munurinn á let og var?</b>
   * let fer inn í þrengra scope en var.
+
 -<b>Skilgreindu fall á þrjá mismunandi vegu með kóðasýnidæmi.</b>
-```javascript
-  * function fall(){
+ * ```javascript
+  function fall(){
   }
   ```
-  ```javascript
+ *  ```javascript
   * let fall = function(){
   }
   ```
-  ```javascript
+ *  ```javascript
   * let fall = function fall(){
   }
   ```
