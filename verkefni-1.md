@@ -1,5 +1,5 @@
 1. <b>Hvað er null og undefined?</b> 
-  - Tóm gildi sem maður notar ef þú þarft eitthvað til að vera í breytu.
+  * Tóm gildi sem maður notar ef þú þarft eitthvað til að vera í breytu.
 2. <b>Hvað gerir 'use strict' í JavaScript kóða?</b> 
   * Lætur þýðandann breyta sem minnst.
 3. <b>Hver er munurinn á let og var?</b>
@@ -43,8 +43,23 @@ alert(foo());
 ```
  * Hann kíkir á kóðan til að athuga hvort hann er í lagi og færi all eins ofanlega og hann getur í scopinu sem það er í. t.d hann færir neðra function bar ofan við return bar(). Hann yfirskrifar líka gamla bar fallið með því nýja og þess vegna fær maður 8 þegar maður kallar á það.
 7. <b> Hver er munurinn á for, for-in og for-of lykkjum? </b>
- * 
+ * Hér er munurinn hvernig á að nota for lykkjunar.
+ ```javascript
+ let string = "Hello World"
+
+		for (let a = 0; a < string.length; a++){
+			console.log(a)
+		}
+
+		for (let a of string){
+			console.log(a)
+		}
+
+		for (let a in string){
+			console.log(a)
+		}
  
+ ```
 8. <b>forEach() Leystu lið 20 í Arrays á Udacity https://classroom.udacity.com/courses/ud803 </b>
 
 ```javascript
