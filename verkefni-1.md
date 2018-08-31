@@ -1,5 +1,5 @@
 1. <b>Hvað er null og undefined?</b> 
-  A. Tóm gildi sem maður notar ef þú þartf eitthvað til að vera í breytu.
+   Tóm gildi sem maður notar ef þú þartf eitthvað til að vera í breytu.
 2. <b>Hvað gerir 'use strict' í JavaScript kóða?</b> 
   * Lætur þýðandann breyta sem minnst.
 3. <b>Hver er munurinn á let og var?</b>
@@ -20,6 +20,7 @@
   let fall = function fall(){
   }
   ```
-5. <b>Útskýrðu hvað eftirfarandi kóði gerir, hvað gera svigarnir?
- 
- (function() { alert('Hello World'); })(); </b>
+5. <b>Útskýrðu hvað eftirfarandi kóði gerir, hvað gera svigarnir?</b>
+ ```javascript
+ (function() { alert('Hello World'); })(); 
+ ```
