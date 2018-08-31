@@ -41,7 +41,7 @@ function foo(){
 alert(foo()); 
 
 ```
- * Hann kíkir á kóðan til að athuga hvort hann er í lagi og færi all eins ofanlega og hann getur í scopinu sem það er í. t.d hann færir neðra function bar ofan við return bar(). Hann yfirskrifar líka gamla bar fallið með því nýja og þess vegna fær maður 8 þegar maður kallar á það.
+ * Hann kíkir á kóðan til að athuga hvort hann er í lagi og færi all eins ofanlega og hann getur í scopinu sem það er í. t.d hann færir neðra function bar ofan við return bar(). Hann yfirskrifar líka gamla bar fallið með því nýja og þess vegna fær maður 8 þegar maður kallar á það. Hann fer semsagt inn í fallið foo sem fer inn í fallið bar og bar skilar 8 til foo og foo skilar 8 sem er síðan alert-að.
 7. <b> Hver er munurinn á for, for-in og for-of lykkjum? </b>
  * Hér er munurinn hvernig á að nota for lykkjunar. for-in lykkjur get verið notaðar með objects en for-of geta það ekki.
  ```javascript
