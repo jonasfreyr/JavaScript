@@ -34,10 +34,33 @@ function foo(){
            return 3;
        }
        return bar();
-       function bar() {
+      function bar() {
             return 8;
        }
 }
 alert(foo()); 
 
+```
+ * Hann kíkir á kóðan til að athuga hvort hann er í lagi og færi all eins ofanlega og hann getur í scopinu sem það er í. t.d hann færir neðra function bar ofan við return bar(). Hann yfirskrifar líka gamla bar fallið með því nýja og þess vegna fær maður 8 þegar maður kallar á það.
+7. Hver er munurinn á for, for-in og for-of lykkjum? 
+ * 
+ 
+8.
+```javascript
+  var test = [12, 929, 11, 3, 199, 1000, 7, 1, 24, 37, 4,
+    19, 300, 3775, 299, 36, 209, 148, 169, 299,
+    6, 109, 20, 58, 139, 59, 3, 1, 139
+];
+
+test.forEach(function(num, index) {
+    if (num % 3 === 0){
+        num += 100
+        test.splice(index, 1, num)
+    }
+    
+}
+
+)
+
+console.log(test)
 ```
