@@ -47,17 +47,17 @@ alert(foo());
  ```javascript
  let string = "Hello World"
 
-		for (let a = 0; a < string.length; a++){
-			console.log(a)
-		}
+for (let a = 0; a < string.length; a++){
+	console.log(a)
+}
 
-		for (let a of string){
-			console.log(a)
-		}
+for (let a of string){
+	console.log(a)
+}
 
-		for (let a in string){
-			console.log(a)
-		}
+for (let a in string){
+	console.log(a)
+}
  
  ```
 8. <b>forEach() Leystu lið 20 í Arrays á Udacity https://classroom.udacity.com/courses/ud803 </b>
