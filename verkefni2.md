@@ -78,6 +78,16 @@ donuts.forEach(function(obj){
 (objects). Pizzan þarf að hafa; verð, stærð (large, medium, size) og álegg (ostur, skinka,
 pepperoni, ananas). Dæmi: Stór Magherita (ostur, oregano) kr. 2195. (1%)
 ```javascript
+let Pizza = function(verd, staerd, alegg){
+				this.verd = verd; 
+				this.staerd = staerd;
+				this.alegg = alegg
+			}
+			
+
+			let pizza1 = new Pizza(2150, "Stór", ["ostur","skinka", "pepperoni", "rjómaostur"])
+
+			let pizza2 = new Pizza(1500, "Miðstærð", ["ostur"])
 ```
 
 
