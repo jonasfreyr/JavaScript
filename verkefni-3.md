@@ -1,6 +1,6 @@
 1. Útskýrðu Prototype kerfið í JavaScript. Hver er munurinn á því t.d. og ObjectOriented
 forritun (OOP) í öðrum málum eins og Python? (1%)
-
+  
 
 2. Útskýrðu eins vel og þú getur hvað gerist í kóðanum(1%)
 a. Þegar prototype er sleppt
