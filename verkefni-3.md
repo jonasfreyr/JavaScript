@@ -34,14 +34,35 @@ að ofan. Gefðu þessum flaugum einhver eigindi og gildi. Þessar flaugar
 eiga að auki að hafa aðferðina setLife() sem hækkar life um 1.
  ```javascript
 function Flaugar(speed, nafn){
-			this.speed = speed
-			this.life = 10
-			this.nafn = nafn
-		}
+   		this.speed = speed;
+   		this.life = 10;
+   		this.nafn = nafn;
+   	}
 
-		Flaugar.prototype.fly(){
-			this.speed += 1
-		}
+Flaugar.prototype.fly = function(){
+   		this.speed += 1;
+   	}
+
+let flaug_1 = new Flaugar(5, "LWSS Dream");
+let flaug_2 = new Flaugar(2, "SC Atlas");
+let flaug_3 = new Flaugar(7, "The Siren");
+
+function undirFlaugar(gerd, nafn){
+	this.gerd = gerd;
+	this.nafn = nafn;
+	this.life = 5
+
+}
+
+undirFlaugar.prototype = Object.create(Flaugar.prototype);
+undirFlaugar.prototype.constructor = undirFlaugar;
+
+undirFlaugar.prototype.setLife = function(){
+	this.life += 1
+}
+
+let flaug_4 = new undirFlaugar('mk3', 'Santas Little Helper');
+let flaug_5 = new undirFlaugar('mk1', 'Hornet');
   ```  
 4. Gerðu það sama og í lið 3 en með notkun class (ES2015). Notaðu constructor,
 get, set, static, extends, super, mix-ins eftir þörfum. (2%)
