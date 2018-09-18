@@ -1,5 +1,6 @@
 1. Útskýrðu Prototype kerfið í JavaScript. Hver er munurinn á því t.d. og ObjectOriented
 forritun (OOP) í öðrum málum eins og Python? (1%)
+OOP í t.d Python þá eru klasarnir bara blueprint til að búa til object en í JavaScript þá er það bara til er bara meira physical.
   
 
 2. Útskýrðu eins vel og þú getur hvað gerist í kóðanum(1%)
