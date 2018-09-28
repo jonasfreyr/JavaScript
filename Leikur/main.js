@@ -1,5 +1,6 @@
 let canvas = document.getElementById("c");
 let ctx = canvas.getContext("2d");
+ctx.font = "30px Arial";
 
 let width = canvas.width = window.innerWidth;
 let height = canvas.height = window.innerHeight;
@@ -21,7 +22,67 @@ function random(min,max) {
   return num;
 }
 
+class Asteroid{
+	constructor(x, y, velX, velY, size){
+		this.x = x;
+		this.y = y;
+		this.velX = velX;
+		this.velY = velY;
+		this.Size = size;
 
+	}
+	update(){
+
+	}
+
+	draw(){
+		ctx.beginPath();
+		ctx.rect(this.x, this.y, this.Size, this.Size);
+		ctx.stroke();
+	}
+}
+
+class WinSquare{
+	constructor(x){
+		this.x = x;
+		this.y = height - 5
+		this.Size = 55;
+
+	}
+	draw(){
+		ctx.beginPath();
+		ctx.fillStyle = "red";
+		ctx.fillRect(this.x, this.y, this.Size, 20);
+	}
+}
+
+class Booster{
+	constructor(x, y, height, width){
+		this.x = x;
+		this.y = y;
+		this.Height = height;
+		this.Width = width;
+	}
+	draw(){
+		ctx.beginPath();
+		ctx.rect(this.x, this.y, this.Width, this.Height)
+		ctx.stroke();
+
+		ctx.beginPath();
+		ctx.moveTo(this.x, this.y);
+		ctx.lineTo(this.x + 5, this.y - 15);
+		ctx.lineTo(this.x + this.Width, this.y);
+		ctx.stroke();
+	}
+	drawFlames(){
+		ctx.beginPath();
+		ctx.moveTo(this.x, this.y + this.Height);
+		ctx.lineTo(this.x + 5, this.y + this.Height + 5);
+		ctx.lineTo(this.x + this.Width, this.y + this.Height);
+		ctx.stroke();
+
+	}
+}
 
 class Spaceship{
 	constructor(x, y){
@@ -32,6 +93,11 @@ class Spaceship{
 		this.Width = 30;
 		this.Height = 60;
 		this.speed = 0.1
+
+		this.Boosters = [new Booster(this.x - 11, this.y + this.Height / 2, this.Height / 2, 10), new Booster(this.x + this.Width + 1, this.y + this.Height / 2, this.Height / 2, 10)]
+
+		
+		
 	}
 
 	event(){
@@ -43,13 +109,16 @@ class Spaceship{
 	    }
 	    if(keyState[87]) { // w
 	      this.velY -= this.speed;
+	      this.Boosters.forEach(function(booster){
+	      	booster.drawFlames();
+	      })
 	    } 
 	}
 
 	update(){
 		this.velY += gravity;
 
-		console.log(this.velX)
+		
 
 		if (this.velX > 0){
 			if (this.velX - 0.01 < 0){
@@ -65,9 +134,27 @@ class Spaceship{
 			if (this.velX + 0.01 > 0){
 				this.velX = 0;
 			}
-			this.velX += 0.01;
+			else{
+				this.velX += 0.01;
+			}
 		}
 
+		this.x += this.velX;
+
+		let _this_velX = this.velX;
+		let _this_velY = this.velY
+		this.Boosters.forEach(function(booster){
+			booster.x += _this_velX;
+
+			if (booster.y + _this_velY + booster.Height < height){
+				booster.y += _this_velY;
+			}
+			else{
+				
+				booster.y = height - booster.Height
+			}
+			
+		})
 
 		if (this.y + this.velY + this.Height < height){
 			this.y += this.velY;
@@ -77,8 +164,9 @@ class Spaceship{
 			this.velY = 0;
 		}
 
-		this.x += this.velX;
+
 	}
+
 
 	draw(){
 		//ctx.drawImage(this.img, this.x, this.y, this.Width, this.Height);
@@ -105,30 +193,20 @@ class Spaceship{
     	//Drawing Boosters
 
     	//Left Booster
-    	ctx.beginPath();
-		ctx.rect(this.x - 11, this.y + this.Height / 2, 10, this.Height / 2)
-		ctx.stroke();
-
-		ctx.beginPath();
-		ctx.moveTo(this.x - 11, this.y + this.Height / 2);
-		ctx.lineTo(this.x - 5, this.y + 15);
-		ctx.lineTo(this.x, this.y + this.Height / 2);
-		ctx.stroke();
+    	this.Boosters.forEach(function(booster){
+    		booster.draw();
+    	}) 
 
 		//Right Booster
-		ctx.beginPath();
-		ctx.rect(this.x + this.Width + 1, this.y + this.Height / 2, 10, this.Height / 2)
-		ctx.stroke();
-
-		ctx.beginPath();
-		ctx.moveTo(this.x + this.Width + 1, this.y + this.Height / 2);
-		ctx.lineTo(this.x + this.Width + 6, this.y + 15);
-		ctx.lineTo(this.x + this.Width + 11, this.y + this.Height / 2);
-		ctx.stroke();
+		
 	}
 }
 
+function collision(obj1, obj2){
+	
+}
 
+let winbox = null;
 function loop(){
 	ctx.fillStyle = 'rgba(255,255,255)';
   	ctx.fillRect(0,0,width,height);
@@ -137,9 +215,22 @@ function loop(){
 	ship.update();
 	ship.draw();
 
+	as.draw();
+
+	if (winbox == null){
+		winbox = new WinSquare(random(0, width));
+
+	}
+	else{
+		winbox.draw();
+	}
+
+	ctx.fillText("Speed: " + Math.abs(ship.velY.toFixed(2)), 0 , 30);
+
 	requestAnimationFrame(loop);	
 }
 
 
-let ship = new Spaceship(width / 2, 0);
-loop(); 
+let ship = new Spaceship(width / 2, 200);
+let as = new Asteroid(300, 300, 0, 0, 100)
+loop();
