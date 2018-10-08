@@ -1,0 +1,23 @@
+canvas { 
+	border: 1px solid;
+}
+
+html {
+	text-align: center;
+}
+
+if (1 == 0){
+	asteroids.forEach(function(asteroid, index){
+		asteroids.forEach(function(asteroid2, index2){
+			if (collision(asteroid, asteroid2) && asteroid != asteroid2){
+				booms.push(new Boom(asteroid.x + asteroid.Width / 2, asteroid.y + asteroid.Height / 2, 40));
+				booms.push(new Boom(asteroid2.x + asteroid.Width / 2, asteroid2.y + asteroid2.Height / 2, 40));
+
+				asteroids.splice(index, 1);
+
+				del = asteroids.indexOf(asteroid2);
+				asteroids.splice(del, 1);
+			}
+		});
+	});
+}

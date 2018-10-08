@@ -1,9 +1,8 @@
 let canvas = document.getElementById("c");
 let ctx = canvas.getContext("2d");
-ctx.font = "30px Arial";
 
-let width = canvas.width = window.innerWidth;
-let height = canvas.height = window.innerHeight;
+let width = canvas.width = 1600;
+let height = canvas.height = 900;
 
 window.addEventListener('keydown',function(e){
     keyState[e.keyCode || e.which] = true;
@@ -18,7 +17,7 @@ let gravity = 0.02
 
 let keyState = {};
 let asteroids, booms, ship, repairbox;
-
+let vicScore = {};
 
 function random(min,max) {
   var num = Math.random()*(max-min) + min;
@@ -56,21 +55,6 @@ class Asteroid{
 		ctx.beginPath();
 		ctx.rect(this.x, this.y, this.Width, this.Height);
 		ctx.stroke();
-	}
-}
-
-class RepairSquare{
-	constructor(x){
-		this.x = x;
-		this.y = height - 5;
-		this.Width = 55;
-		this.Height = 20;
-
-	}
-	draw(){
-		ctx.beginPath();
-		ctx.fillStyle = "red";
-		ctx.fillRect(this.x, this.y, this.Width, this.Height);
 	}
 }
 
@@ -120,7 +104,7 @@ class Boom{
 }
 
 class Spaceship{
-	constructor(x, y, keys){
+	constructor(x, y, keys, num){
 		this.x = x;
 		this.y = y
 		this.velX = 0;
@@ -128,13 +112,15 @@ class Spaceship{
 		this.Width = 30;
 		this.Height = 60;
 		this.keys = keys
+		this.score = 0;
+		this.scoreDate = new Date();
+		this.ShipNum = num;
 
 		this.Boosters = [new Booster(this.x - 11, this.y + this.Height / 2, this.Height / 2, 10), new Booster(this.x + this.Width + 1, this.y + this.Height / 2, this.Height / 2, 10)]
 
 		let speed = 0;
 		this.Boosters.forEach(function(){
 			speed += speed_per_booster;
-			console.log(speed);
 		})
 		this.speed = speed;
 		
@@ -202,7 +188,11 @@ class Spaceship{
 			this.velY = 0;
 		}
 
-
+		let date = new Date();
+		if (date - this.scoreDate > 1000) {
+			this.scoreDate = date;
+			this.score += 5;
+		}
 	}
 
 
@@ -225,8 +215,13 @@ class Spaceship{
     	ctx.stroke();
 
     	ctx.beginPath();
-    	ctx.arc(this.x + this.Width / 2, this.y + 20, 4, 0, 2*Math.PI)
+    	ctx.arc(this.x + this.Width / 2, this.y + 15, 4, 0, 2*Math.PI)
     	ctx.stroke();
+
+    	ctx.textAlign = "center";
+    	ctx.font = "10px Arial";
+    	ctx.fillStyle = "rgb(0, 0, 0)";
+    	ctx.fillText(this.ShipNum, this.x + this.Width / 2, this.y + this.Height / 2);
 
     	//Drawing Boosters
     	this.Boosters.forEach(function(booster){
@@ -267,20 +262,25 @@ function loop(){
 	ctx.fillStyle = 'rgba(255,255,255)';
   	ctx.fillRect(0,0,width,height);
 
-  	repairbox.draw();
-
-  
+  	let yPos = 20;
+  	
   	spaceships.forEach(function(ship){
   		ship.event();
 		ship.update();
 		ship.draw();
 
-		ctx.fillText("Horizontal Speed: " + Math.abs(ship.velY.toFixed(2)), 0 , 30);
-		ctx.fillText("Vertical Speed: " + Math.abs(ship.velX.toFixed(2)), 0 , 40);
+		ctx.textAlign = "left";
+		ctx.font = "10px Arial";
+		ctx.fillStyle = "red";
+		ctx.fillText("Ship Number: " + ship.ShipNum, 0, yPos);
+
+		ctx.fillText("Horizontal Speed: " + Math.abs(ship.velY.toFixed(2)), 0 , yPos + 10);
+		ctx.fillText("Vertical Speed: " + Math.abs(ship.velX.toFixed(2)), 0 , yPos + 20);
+		ctx.fillText("Score: " + ship.score, 0, yPos + 30);
+
+		yPos += 50;
   	});
   	
-
-	
 	
 	asteroids.forEach(function(asteroid, index){
 		asteroid.update();
@@ -309,36 +309,14 @@ function loop(){
 		}
 	})
 
-	if (1 == 0){
-	asteroids.forEach(function(asteroid, index){
-		asteroids.forEach(function(asteroid2, index2){
-			if (collision(asteroid, asteroid2) && asteroid != asteroid2){
-				booms.push(new Boom(asteroid.x + asteroid.Width / 2, asteroid.y + asteroid.Height / 2, 40));
-				booms.push(new Boom(asteroid2.x + asteroid.Width / 2, asteroid2.y + asteroid2.Height / 2, 40));
-
-				asteroids.splice(index, 1);
-
-				del = asteroids.indexOf(asteroid2);
-				asteroids.splice(del, 1);
-			}
-		});
-	});
-}
-	spaceships.forEach(function(ship){
-		if (collision(repairbox, ship)){
-		console.log("yuo ween!");
-	}
-	});
-	
-
 	spaceships.forEach(function(ship){
 		ship.Boosters.forEach(function(booster, index){
 			asteroids.forEach(function(asteroid, index2){
 				if (collision(booster, asteroid)){
 					ship.Boosters.splice(index, 1);
 					ship.speed -= speed_per_booster;
-					booms.push(new Boom(booster.x, booster.y, 30))
-					booms.push(new Boom(asteroid.x + asteroid.Width / 2, asteroid.y + asteroid.Height / 2, 40))
+					booms.push(new Boom(booster.x, booster.y, 30));
+					booms.push(new Boom(asteroid.x + asteroid.Width / 2, asteroid.y + asteroid.Height / 2, 40));
 
 					asteroids.splice(index2, 1)
 
@@ -348,34 +326,44 @@ function loop(){
 		
 		});
 	});
-	
-
-
 	for (let a in asteroids){
 		for (let b in spaceships){
 			if (collision(spaceships[b], asteroids[a])){
-				booms.push(new Boom(spaceships[b].x, spaceships[b].y, 50))
-				booms.push(new Boom(asteroids[a].x + asteroids[a].Width / 2, asteroids[a].y + asteroids[a].Height / 2, 40))
+				booms.push(new Boom(spaceships[b].x, spaceships[b].y, 50));
+				booms.push(new Boom(asteroids[a].x + asteroids[a].Width / 2, asteroids[a].y + asteroids[a].Height / 2, 40));
 
 				asteroids.splice(a, 1);
-				spaceships.splice(b, 1)
+				vicScore[spaceships[b].ShipNum] = spaceships[b].score;
+				spaceships.splice(b, 1);
 			}
 		}
 	}
 	
-	console.log(keyState);
 	if (keyState[82]){
 		New();
 	}
+
+	if (spaceships.length <= 0){
+		ctx.fillStyle = 'rgba(0,0,0, 0.4)';
+  		ctx.fillRect(0,0,width,height);
+
+  		ctx.textAlign = "center";
+		ctx.font = "60px Arial";
+		ctx.fillStyle = "white";
+		ctx.fillText("Game Over", width / 2, height / 2);
+		ctx.fillText("Player 1: " + vicScore["1"], width / 2, height / 2 + 70);
+		ctx.fillText("Player 2: " + vicScore["2"], width / 2, height / 2 + 130);
+	}
+
 	requestAnimationFrame(loop);	
 }
+	
 
 function New(){
 	spaceships = []
-	repairbox = new RepairSquare(random(0, width - 55))
 
-	spaceships.push(new Spaceship(repairbox.x, height, {"left": 65, "right": 68, "up": 87}));
-	spaceships.push(new Spaceship(repairbox.x , height, {"left": 37, "right": 39, "up": 38}));
+	spaceships.push(new Spaceship(random(0, width), height, {"left": 65, "right": 68, "up": 87}, 1));
+	spaceships.push(new Spaceship(random(0, width) , height, {"left": 37, "right": 39, "up": 38}, 2));
 
 	asteroids = [];
 	booms = [];
@@ -383,6 +371,7 @@ function New(){
 }
 
 //asteroids.push(new Asteroid(300, 300, 0, 0, 50, 50))
-New()
+
+New();
 setInterval(new_astroid, 100);
-loop(); 
+loop();
