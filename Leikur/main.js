@@ -11,8 +11,11 @@ window.addEventListener('keyup',function(e){
     keyState[e.keyCode || e.which] = false;
 },true);
 
-let speed_per_booster = 0.05;
-let gravity = 0.02
+let speed_per_booster = 0.2;
+let gravity = 0.08
+let astMin = 1;
+let astMax = 6;
+let astTime = 100;
 //let img = document.getElementById("spaceship")
 
 let keyState = {};
@@ -115,6 +118,8 @@ class Spaceship{
 		this.score = 0;
 		this.scoreDate = new Date();
 		this.ShipNum = num;
+		this.time = null;
+		this.timer = null;
 
 		this.Boosters = [new Booster(this.x - 11, this.y + this.Height / 2, this.Height / 2, 10), new Booster(this.x + this.Width + 1, this.y + this.Height / 2, this.Height / 2, 10)]
 
@@ -244,17 +249,65 @@ function collision(rect1, rect2){
 	}
 }
 
+function drawScreenText(){
+	ctx.textAlign = "center";
+	ctx.fillStyle = "rgba(127, 127, 127, 0.6)";
+
+	ctx.font = "20px Arial";
+	ctx.fillText("R - Reset", width / 2, 90);
+
+	ctx.font = "30px Arial";
+	ctx.fillText("Asteroid Evader", width / 2, 60);
+
+
+	ctx.textAlign = "left";
+	ctx.fillText("Player 1: W - Up, A - Left, D - Right", 0, height - 8);
+
+	ctx.textAlign = "right";
+	ctx.fillText("Player 2: ArrowUp - Up, ArrowLeft - Left, ArrowRight - Right", width, height - 8);
+	
+
+}
+
 function new_astroid(){
 let side = Math.floor(random(1,4));
 if (side === 1){
 // x, y, velX, velY, width, height
-asteroids.push(new Asteroid(-random(50, 300), random(0, height), random(1, 3), random(-3, 3), 50, 50));
+asteroids.push(new Asteroid(-random(50, 300), random(0, height), random(astMin, astMax), random(-astMax, astMax), 50, 50));
 }
 else if (side === 2){
-asteroids.push(new Asteroid(random(0, width), -random(50, 300), random(-3, 3), random(1, 3), 50, 50));
+asteroids.push(new Asteroid(random(0, width), -random(50, 300), random(-astMax, astMax), random(astMin, astMax), 50, 50));
 }
 else if (side === 3){
-asteroids.push(new Asteroid(random(width + 50, width + 300), random(0, height), random(-3, -1), random(-3, 3), 50, 50));}
+asteroids.push(new Asteroid(random(width + 50, width + 300), random(0, height), random(-astMax, -astMin), random(-astMax, astMin), 50, 50));}
+}
+
+function drawTimer(xPos, yPos, time){
+	let x = xPos;
+	let y = yPos;
+
+	if (x > width){
+		x = width - 10;
+	}
+
+	else if(x < 0){
+		x = 10;
+	}
+
+	if (y > height){
+		y = height - 10;
+	}
+
+	else if(y < 0){
+		y = 20;
+	}
+
+	ctx.textAlign = "center";
+	ctx.font = "20px Arial";
+	ctx.fillStyle = "red";
+	ctx.fillText(time, x, y);
+
+
 }
 
 let winbox = null;
@@ -262,12 +315,37 @@ function loop(){
 	ctx.fillStyle = 'rgba(255,255,255)';
   	ctx.fillRect(0,0,width,height);
 
+  	drawScreenText();
+
   	let yPos = 20;
-  	
-  	spaceships.forEach(function(ship){
+
+  	spaceships.forEach(function(ship, index){
   		ship.event();
 		ship.update();
 		ship.draw();
+
+		if (!collision(screen, ship)){
+			if (ship.time == null){
+				ship.time = new Date();
+				ship.timer = 10;
+			}
+
+			let date = new Date();
+			if (date - ship.time > 1000){
+				ship.time = date;
+				ship.timer -= 1;
+
+			}
+
+			if (ship.timer < 0){
+				spaceships.splice(index, 1);
+			}
+			drawTimer(ship.x + ship.Width / 2, ship.y + ship.Height / 2, ship.timer);
+		}
+
+		else{
+			ship.time = null;
+		}
 
 		ctx.textAlign = "left";
 		ctx.font = "10px Arial";
@@ -362,16 +440,15 @@ function loop(){
 function New(){
 	spaceships = []
 
-	spaceships.push(new Spaceship(random(0, width), height, {"left": 65, "right": 68, "up": 87}, 1));
-	spaceships.push(new Spaceship(random(0, width) , height, {"left": 37, "right": 39, "up": 38}, 2));
+	spaceships.push(new Spaceship(width / 4, height, {"left": 65, "right": 68, "up": 87}, 1));
+	spaceships.push(new Spaceship(width / 4 * 3 , height, {"left": 37, "right": 39, "up": 38}, 2));
 
 	asteroids = [];
 	booms = [];
 
 }
 
-//asteroids.push(new Asteroid(300, 300, 0, 0, 50, 50))
 
 New();
-setInterval(new_astroid, 100);
+setInterval(new_astroid, astTime);
 loop();
