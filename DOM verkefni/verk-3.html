@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+
+  <ul>
+    <li>Animals
+      <ul>
+        <li>Mammals
+          <ul>
+            <li>Cows</li>
+            <li>Donkeys</li>
+            <li>Dogs</li>
+            <li>Tigers</li>
+          </ul>
+        </li>
+        <li>Other
+          <ul>
+            <li>Snakes</li>
+            <li>Birds</li>
+            <li>Lizards</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>Fishes
+      <ul>
+        <li>Aquarium
+          <ul>
+            <li>Guppy</li>
+            <li>Angelfish</li>
+          </ul>
+        </li>
+        <li>Sea
+          <ul>
+            <li>Sea trout</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <script>
+    // ... your code...
+  let lis = document.getElementsByTagName("li");
+  for(let li = 0; li<=lis.length - 1; li++){
+    let msg = lis[li].firstChild.data;
+    let num  = lis[li].getElementsByTagName("li").length;
+
+    msg = msg.trim();
+
+    console.log(num + ":" + msg);
+  }
+  </script>
+
+</body>
+</html>
+
+--------------------------------------------------------------------------------------------------
+
+What does the script show? ---- 1, Því script er element.
+<html>
+
+<body>
+  <script>
+    alert(document.body.lastChild.nodeType);
+  </script>
+</body>
+
+</html>
+
+--------------------------------------------------------------------------------------------------
+
+ What does this code show? ---- BODY, Því það skrifar yfir allt með tagname á body sem er BODY.
+<script>
+  let body = document.body;
+
+  body.innerHTML = "<!--" + body.tagName + "-->";
+
+  alert( body.firstChild.data ); // what's here?
+</script>
+
+--------------------------------------------------------------------------------------------------
+
+Which class does the document belong to?
+<script type="text/javascript">
+alert(document); // HTMLDocument
+</script>
+What’s its place in the DOM hierarchy?
+<script type="text/javascript">
+alert(HTMLDocument.prototype.constructor === HTMLDocument); // true
+</script>
+Does it inherit from Node or Element, or maybe HTMLElement?
+<script type="text/javascript">
+alert(HTMLDocument.prototype.constructor.name); // HTMLDocument
+alert(HTMLDocument.prototype.__proto__.constructor.name); // Document
+alert(HTMLDocument.prototype.__proto__.__proto__.constructor.name); // Node
+</script>
