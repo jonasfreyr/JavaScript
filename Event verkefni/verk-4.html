@@ -30,19 +30,25 @@
   <script>
     ul.onclick = function(event){
       let remove = false;
+      //Ef target er ekki ul
       if (event.target != ul){
+      //Ef er ýtt er á ctrl
       if(event.ctrlKey || event.metaKey){
+        //Ef selected er 
         if (event.target.classList[0] == "selected"){
+          //Tek selected af
           event.target.classList.remove("selected");
           remove = true;
         }
       }
       else{
+        //Geri for lykkju sem tek selected af öllum li
         for (let a of ul.querySelectorAll("li")){
           a.classList.remove("selected");
         }
       }
       if (remove == false){
+      //Set selected á target
       event.target.classList.add("selected");
     }
       }
