@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+
+  <div id="slider" class="slider">
+    <div id="thumb" class="thumb"></div>
+  </div>
+
+  <script>
+    // ...your code...
+    thumb.ondragstart = function() {
+	    return false;
+	};
+
+	slider.ondragstart = function() {
+	    return false;
+	};
+
+
+    thumb.onmousedown = function(event){
+    	event.preventDefault();
+
+    	document.addEventListener('mousemove', move);
+
+    	function moveAt(pageX) {
+    		console.log(thumb.style.left);
+    		console.log(parseInt(thumb.style.left) + thumb.offsetWidth);
+    		if(slider.style.left + slider.offsetWidth > parseInt(thumb.style.left) + thumb.offsetWidth){
+		    	thumb.style.left = pageX - thumb.offsetWidth / 2 + 'px';
+    		}
+    		//else{
+    		//	thumb.style.left = pageX - thumb.offsetWidth / 2 + 'px';
+    		//}
+
+		    thumb.style.top = 3 + "px";
+	
+		  }
+
+		function move(event) {
+			moveAt(event.pageX);
+		}
+
+		
+
+		document.onmouseup = function() {
+	    	document.removeEventListener('mousemove', move);
+	    	thumb.onmouseup = null;
+    	}
+
+    }
+
+    
+  </script>
+
+</body>
+	<style type="text/css">
+		.slider {
+		  border-radius: 5px;
+		  background: #E0E0E0;
+		  background: linear-gradient(left top, #E0E0E0, #EEEEEE);
+		  width: 310px;
+		  height: 15px;
+		  margin: 5px;
+		}
+
+		.thumb {
+		  width: 10px;
+		  height: 25px;
+		  border-radius: 3px;
+		  position: relative;
+		  left: 10px;
+		  top: -5px;
+		  background: blue;
+		  cursor: pointer;
+		}
+	</style>
+</html>
