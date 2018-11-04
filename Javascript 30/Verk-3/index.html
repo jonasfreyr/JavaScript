@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mouse Shadow</title>
+</head>
+<body>
+
+  <div class="hero">
+    <h1 contenteditable>🔥WOAH!</h1>
+  </div>
+
+  <style>
+  html {
+    color: black;
+    font-family: sans-serif;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+  }
+
+  h1 {
+    text-shadow: 10px 10px 0 rgba(0,0,0,1);
+    font-size: 100px;
+  }
+  </style>
+
+<script>
+  //Næ í div með class hero
+  const hero = document.querySelector('.hero');
+  //Næ í h1 sem er inn í div
+  const text = hero.querySelector('h1');
+  const walk = 25;
+
+  function shadow(e) {
+    //Finn breytt og hæð á div
+    const width = hero.offsetWidth;
+    const height = hero.offsetHeight;
+
+    //Finn Staðsetningu á mús
+    let x = e.offsetX;
+    let y = e.offsetY;
+
+
+    // Ef ég er á h1 en ekki div
+    if (this !== e.target){
+      //Reikna staðsetningu á mús svo hún er í samræmi við div
+      x = x + e.target.offsetLeft;
+      y = y + e.target.offsetTop;
+    }
+
+    const xWalk = Math.round((x / width * walk) - (walk / 2));
+    const yWalk = Math.round((y / height * walk) - (walk / 2));
+    
+    //Breyti staðsetningu á shadow
+    text.style.textShadow = `${-xWalk}px ${-yWalk}px 0 black`;
+
+  }
+
+  //Set EventListener sem kallar á fallið shadow þegar músin hreyfist
+  hero.addEventListener('mousemove', shadow)
+
+</script>
+</body>
+</html>

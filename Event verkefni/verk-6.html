@@ -25,31 +25,35 @@
     thumb.onmousedown = function(event){
     	event.preventDefault();
 
-    	document.addEventListener('mousemove', move);
+    	//Geri shiftX svo thumb fer ekki í miðjna á cursor
+    	let shiftX = event.clientX - thumb.getBoundingClientRect().left;
 
-    	function moveAt(pageX) {
-    		console.log(thumb.style.left);
-    		console.log(parseInt(thumb.style.left) + thumb.offsetWidth);
-    		if(slider.style.left + slider.offsetWidth > parseInt(thumb.style.left) + thumb.offsetWidth){
-		    	thumb.style.left = pageX - thumb.offsetWidth / 2 + 'px';
+    	//Geri eventListener-a
+    	document.addEventListener('mousemove', moveAt);
+    	document.addEventListener('mouseup', mouseup)
+
+    	function moveAt(event) {
+    		//Finn nýja staðsetningu
+    		let left = event.clientX - shiftX - slider.getBoundingClientRect().left;
+    		
+    		if (left < 0){
+    			left = 0
     		}
-    		//else{
-    		//	thumb.style.left = pageX - thumb.offsetWidth / 2 + 'px';
-    		//}
+    		let right = slider.offsetWidth - thumb.offsetWidth;
+    		if (left > right){
+    			left = right;
+    		}
 
-		    thumb.style.top = 3 + "px";
+		    thumb.style.left = left + "px";
 	
 		  }
 
-		function move(event) {
-			moveAt(event.pageX);
-		}
-
 		
 
-		document.onmouseup = function() {
+		function mouseup() {
+			//Eyði eventListener-unum
 	    	document.removeEventListener('mousemove', move);
-	    	thumb.onmouseup = null;
+	    	document.removeEventListener('mouseup', mouseup);
     	}
 
     }

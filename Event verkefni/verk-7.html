@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>verk-7</title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+	
+	function runOnKeys(func, ...codes) {
+		let takkar = {};
+		
+		document.addEventListener("keydown", getKeys);
+		document.addEventListener("keyup", removeKeys);
+
+
+		function getKeys(event){
+			takkar[event.code] = true;
+
+
+			let brake = false;
+			for(let i of codes){
+				if(!takkar[i]){
+					brake = true;
+				}
+				if(takkar[i] === false){
+					brake = true;
+				}
+
+				if(brake === true){
+					break;
+				}
+			}
+
+			if(brake === false){
+				func();
+				takkar = {};
+			}
+
+		}
+
+		function removeKeys(event){
+			takkar[event.code] = false;
+		}
+
+	}
+
+	runOnKeys(() => alert("ayay"), "KeyQ", "KeyW");
+
+</script>
+</html>
